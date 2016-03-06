@@ -151,6 +151,7 @@ func XORDecrypt(encrypted []byte) (result []byte) {
 /*
 UTIL FUNCTIONS
  */
+
 func HexToBytes(input string) (hexbytes []byte) {
   hexbytes,_ = hex.DecodeString(input)
   return

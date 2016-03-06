@@ -30,4 +30,7 @@ func main() {
   result := mycrypto.XORDecrypt(encrypted)
   fmt.Println("Decrypted Result:", string(result))
   fmt.Println()
+
+  // challenge 4
+
 }
