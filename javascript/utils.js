@@ -1,6 +1,7 @@
 'use strict';
 const fs = require('fs');
 const readline = require('readline');
+const crypto = require('crypto');
 
 // https://en.wikipedia.org/wiki/Letter_frequency
 const englishLetterFrequency = {
@@ -140,10 +141,11 @@ const readLines = filename => new Promise((resolve, reject) => {
   lineReader.on('error', reject);
 });
 
-const readFile = filename => new Promise((resolve, reject) => {
-  fs.readFile(filename, (err, buffer) => {
+const readFile = (filename, encoding) => new Promise((resolve, reject) => {
+  encoding = encoding || 'utf8';
+  fs.readFile(filename, encoding, (err, str) => {
     if(err) { reject(err); }
-    else { resolve(buffer); }
+    else { resolve(new Buffer(str)); }
   });
 });
 
@@ -206,6 +208,23 @@ const transpose = blocks => {
   return result;
 };
 
+const readBase64File = (filename) => {
+  return readFile(filename, 'base64');
+}
+
+const deciperBuffer = (algorithm, key, buffer) => {
+  const decipher = crypto.createDecipher(algorithm, key);
+  console.log(key, buffer);
+
+  return new Promise((resolve, reject) => {
+    decipher.on('error', reject);
+
+    const enc = decipher.update(buffer);
+    enc += decipher.final();
+    resolve(enc);
+  });
+};
+
 module.exports = {
   hexStringToBuffer,
   padBinary,
@@ -218,5 +237,7 @@ module.exports = {
   hammingDistance,
   base64ToBuffer,
   transpose,
-  breakIntoBlocks
+  breakIntoBlocks,
+  readBase64File,
+  deciperBuffer
 };

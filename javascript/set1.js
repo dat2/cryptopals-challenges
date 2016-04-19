@@ -74,9 +74,7 @@ function encryptRepeatingKeyXor (key, buffer) {
 }
 
 function breakRepeatingKeyXor (filename) {
-  const p = utils.readFile(filename)
-    .then(buffer => new Buffer(buffer.toString().replace(/\n/g, '')))
-    .then(utils.base64ToBuffer)
+  return utils.readBase64File(filename)
     .then(buffer => {
       const keySizes = [];
       for(let keySize = 2; keySize < 40; keySize++) {
@@ -115,8 +113,11 @@ function breakRepeatingKeyXor (filename) {
 
       return result;
     });
+}
 
-  return p;
+function decryptAesEcb(filename) {
+  return utils.readBase64File(filename)
+    .then(utils.deciperBuffer.bind(null, 'aes-128-ecb', new Buffer('YELLOW SUBMARINE')));
 }
 
 module.exports = {
@@ -125,5 +126,6 @@ module.exports = {
   decryptXor,
   detectFixedXor,
   encryptRepeatingKeyXor,
-  breakRepeatingKeyXor
+  breakRepeatingKeyXor,
+  decryptAesEcb
 };

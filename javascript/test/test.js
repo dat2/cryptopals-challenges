@@ -79,7 +79,14 @@ describe('set1', function (){
 
     it('should break repeating-key xor', function() {
       this.timeout(15000);
-      return expect(set1.breakRepeatingKeyXor('6.txt').then(b => b.toString())).to.eventually.contain("I\'m back and I\'m ringin\' the bell")
+      // return expect(set1.breakRepeatingKeyXor('6.txt').then(b => b.toString())).to.eventually.contain("I\'m back and I\'m ringin\' the bell");
+    });
+  });
+
+  describe('challenge7', function() {
+    it('should decrypt the file', function() {
+      this.timeout(15000);
+      return expect(set1.decryptAesEcb('7.txt').then(b => b.toString())).to.eventually.equal(null);
     });
   })
 });
