@@ -212,7 +212,6 @@ def encrypt_aes_ecb(text, key):
     cipher = AES.new(key, AES.MODE_ECB)
     return cipher.encrypt(text)
 
-BLOCK_SIZE = 16
 def is_encrypted_aes_ecb(blocks):
     # check if sub blocks of each block are identical to other blocks
     for b1,b2 in itertools.combinations(blocks, 2):
@@ -222,6 +221,7 @@ def is_encrypted_aes_ecb(blocks):
     return False
 
 def detect_aes_ecb(lines):
+    BLOCK_SIZE = 16
     numbers = []
     for line_number, line in enumerate(lines):
         bs = bytes.fromhex(line.strip())
